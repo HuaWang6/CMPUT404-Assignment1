@@ -10,7 +10,7 @@ Make a simple webserver.
 Collaborators / References
 ==========================
 
-I have discussed the assignment with Zhijian Mei (ccid: zmei1)
+I only discussed the assignment with TA in lab.
 
 References:
 
