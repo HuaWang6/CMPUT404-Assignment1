@@ -69,7 +69,6 @@ class MyWebServer(socketserver.BaseRequestHandler):
             if(url[-4:] == ".css"):
                 css_file = True
                 
-           
             #read file content   
             try:
                 f = open(os.getcwd() + "/www" + url,"rb")
@@ -91,7 +90,8 @@ class MyWebServer(socketserver.BaseRequestHandler):
                 self.request.send(response.encode("utf-8"))
                 self.request.send(html_content)
             
-            
+
+
 if __name__ == "__main__":
     HOST, PORT = "localhost", 8080
 
