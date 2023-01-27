@@ -14,9 +14,9 @@ I have discussed the assignment with Zhijian Mei (ccid: zmei1)
 
 References:
 
-* https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/301
 * https://www.bilibili.com/video/BV1sb411G7pD?spm_id_from=333.999.0.0
-* https://stackoverflow.com/questions/3812849/how-to-check-whether-a-directory-is-a-sub-directory-of-another-directory
+* https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/301
+* https://developer.mozilla.org/en-US/docs/Learn/Server-side/Configuring_server_MIME_types
 
 Contributors / Licensing
 ========================
