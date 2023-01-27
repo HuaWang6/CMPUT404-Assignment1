@@ -1,5 +1,7 @@
 #  coding: utf-8 
 import socketserver
+import os
+
 
 # Copyright 2013 Abram Hindle, Eddie Antonio Santos
 # 
@@ -31,9 +33,65 @@ class MyWebServer(socketserver.BaseRequestHandler):
     
     def handle(self):
         self.data = self.request.recv(1024).strip()
-        print ("Got a request of: %s\n" % self.data)
-        self.request.sendall(bytearray("OK",'utf-8'))
+        request = self.data.decode("utf-8");
+        request_lines = request.splitlines()
+        print(request_lines)
+        
+        info = request_lines[0].split(" ")
+        command = info[0]
+        url = info[1]
+        http = info[2]
+        #check whether file is a css file or not
+        css_file = False 
 
+        #command is not GET
+        if(command != "GET"):
+            response = http + " 405 Method Not Allowed\r\n"
+            response += "\r\n"
+            self.request.send(response.encode("utf-8"))
+        else:
+            
+            
+            # correct the path with no / end by 301 
+            if(url[-5:] != ".html" and url[-1] != "/" and url[-4:] != ".css"):
+                response = http + " 301 Moved Permanently\r\n"
+                response += "Location: "
+                response += url
+                response += "/\r\n" #add "/"
+                self.request.send(response.encode("utf-8"))
+                
+             
+            #if path end with "/" , give index.html content 
+            if(url[-1] == "/"):
+                url += "index.html"
+                
+            #file is css file
+            if(url[-4:] == ".css"):
+                css_file = True
+                
+           
+            #read file content   
+            try:
+                f = open(os.getcwd() + "/www" + url,"rb")
+            except:
+                response = http + " 404 Not Found\r\n"
+                response += "\r\n"
+                self.request.send(response.encode("utf-8"))
+            else:
+                html_content = f.read()
+                f.close()
+                response = http + " 200 OK\r\n"
+                
+                # supports mime-types
+                if(css_file):
+                    response += "Content-Type: text/css\r\n"
+                else:
+                    response += "Content-Type: text/html\r\n"
+                response += "\r\n"
+                self.request.send(response.encode("utf-8"))
+                self.request.send(html_content)
+            
+            
 if __name__ == "__main__":
     HOST, PORT = "localhost", 8080
 
